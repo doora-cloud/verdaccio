@@ -1,5 +1,8 @@
 FROM verdaccio/verdaccio:latest
 
-RUN sudo chown -R $(whoami) /usr/local/lib/node_modules/
+USER root
+RUN mkdir -p /verdaccio/plugins && chown -R verdaccio:verdaccio /verdaccio/plugins
 
-RUN npm install --global verdaccio-s3-storage
+RUN npm install --prefix /verdaccio/plugins verdaccio-s3-storage
+
+USER verdaccio
